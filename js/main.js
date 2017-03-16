@@ -27,6 +27,7 @@ $("#start-button").click(function (evt) {
 
 const player1 = new Player("o", 1);
 const player2 = new Player("x", 2);
+let turns = 0;
 
 let currentPlayer = player1;
 $(`#player${currentPlayer.number}`).addClass("active");
@@ -49,8 +50,18 @@ $(".box").click(function (evt) {
         $(this).addClass(`box-filled-${currentPlayer.number}`);
         $(this).attr("number", currentPlayer.number);
 
+        turns++;
+
+        if (isGameTie()) {
+            showWinningScreen("Tie", "screen-win-tie");
+        }
+
         if (hasGameEnded()) {
-            showWinningScreen();
+            if (currentPlayer === player1) {
+                showWinningScreen("Winner", "screen-win-one");
+            } else {
+                showWinningScreen("Winner", "screen-win-two");
+            }
         }
 
         if (currentPlayer === player1) {
@@ -63,6 +74,11 @@ $(".box").click(function (evt) {
     }
 });
 
+function isGameTie() {
+    if (turns === 9) {
+        return true;
+    }
+}
 
 function hasGameEnded() {
     for (let row = 0; row < boxRows.length; row++) {
@@ -84,18 +100,18 @@ function hasGameEnded() {
     return false;
 }
 
-function showWinningScreen() {
+function showWinningScreen(message, styleClass) {
     const $winningScreen = $(`<div class="screen screen-win" id="finish">
   <header>
     <h1>Tic Tac Toe</h1>
-    <p class="message">Winner</p>
+    <p class="message">${message}</p>
     <a href="#" class="button" id="new-game-button">New game</a>
   </header>
 </div>`);
     if (currentPlayer === player1) {
-        $winningScreen.addClass("screen-win-one");
+        $winningScreen.addClass(styleClass);
     } else {
-        $winningScreen.addClass("screen-win-two");
+        $winningScreen.addClass(styleClass);
     }
     $("body").children().hide();
     $("body").append($winningScreen);
