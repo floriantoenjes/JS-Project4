@@ -3,7 +3,8 @@
 const $body = $("body");
 
 
-function Player(number) {
+function Player(mark, number) {
+    this.mark = mark;
     this.number = number;
 }
 
@@ -24,8 +25,8 @@ $("#start-button").click(function (evt) {
 });
 
 
-const player1 = new Player(1);
-const player2 = new Player(2);
+const player1 = new Player("o", 1);
+const player2 = new Player("x", 2);
 
 let currentPlayer = player1;
 $(`#player${currentPlayer.number}`).addClass("active");
@@ -48,7 +49,6 @@ $(".box").click(function (evt) {
     $(this).attr("number", currentPlayer.number);
 
     if (hasGameEnded()) {
-        console.log(`Player ${currentPlayer.number} wins the game!`)
         showWinningScreen();
     }
 
@@ -110,3 +110,11 @@ function showWinningScreen() {
         $("body").children().show();
     });
 }
+
+$boxes.each(function() {
+    $(this).hover(function (evt) {
+        this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
+    }, function (evt) {
+        this.style = "background-image:;";
+    });
+});
