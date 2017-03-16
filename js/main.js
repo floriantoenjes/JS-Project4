@@ -162,7 +162,7 @@ function bindHoverEventToBoxes() {
         $(this).hover(
             function (evt) {
                 if (!$(this).attr("number")) {
-                    this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
+                    this.style = `background-image: url(img/${currentPlayer.mark}.svg);`;
                 }
             },
             function (evt) {
