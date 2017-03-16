@@ -2,9 +2,10 @@
 
 const $body = $("body");
 
-let turns = 0;
 const player1 = new Player("o", 1);
 const player2 = new Player("x", 2);
+
+let turns = 0;
 let currentPlayer = player1;
 
 const $boxes = $(".box");
@@ -14,12 +15,31 @@ showStartScreen();
 
 $(`#player${currentPlayer.number}`).addClass("active");
 
+buildGameBoard();
+bindClickEventToBoxes();
+bindHoverEventToBoxes();
 
 
-$(".box").click(function (evt) {
-    if (!$(this).attr("number")) {
-        $(this).addClass(`box-filled-${currentPlayer.number}`);
-        $(this).attr("number", currentPlayer.number);
+function Player(mark, number) {
+    this.mark = mark;
+    this.number = number;
+}
+
+function buildGameBoard() {
+    for (let i = 0; i < 3; i++) {
+        const boxRow = []
+        for (let j = i * 3; j < (i * 3) + 3; j++) {
+            boxRow.push($($boxes[j]));
+        }
+        boxRows.push(boxRow);
+    }
+}
+
+function takeTurn(box) {
+    const $box = $(box);
+    if (!$box.attr("number")) {
+        $box.addClass(`box-filled-${currentPlayer.number}`);
+        $box.attr("number", currentPlayer.number);
 
         turns++;
 
@@ -34,40 +54,19 @@ $(".box").click(function (evt) {
                 showWinningScreen("Winner", "screen-win-two");
             }
         }
-
-        if (currentPlayer === player1) {
-            currentPlayer = player2;
-        } else {
-            currentPlayer = player1;
-        }
-        $(".players").removeClass("active");
-        $(`#player${currentPlayer.number}`).addClass("active");
-    }
-});
-
-buildGameBoard();
-bindHoverEventToBoxes();
-
-function Player(mark, number) {
-    this.mark = mark;
-    this.number = number;
-}
-
-function buildGameBoard() {
-
-    for (let i = 0; i < 3; i++) {
-        const boxRow = []
-        for (let j = i * 3; j < (i * 3) + 3; j++) {
-            boxRow.push($($boxes[j]));
-        }
-        boxRows.push(boxRow);
+        switchPlayers();
     }
 }
 
-function takeTurn() {
-
+function switchPlayers() {
+    if (currentPlayer === player1) {
+        currentPlayer = player2;
+    } else {
+        currentPlayer = player1;
+    }
+    $(".players").removeClass("active");
+    $(`#player${currentPlayer.number}`).addClass("active");
 }
-
 
 function isGameTie() {
     if (turns === 9) {
@@ -138,6 +137,12 @@ function showWinningScreen(message, styleClass) {
         });
 
         $body.children().show();
+    });
+}
+
+function bindClickEventToBoxes() {
+    $(".box").click(function (evt) {
+        takeTurn(this);
     });
 }
 
