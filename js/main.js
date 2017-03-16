@@ -20,7 +20,7 @@ $body.children().hide();
 $body.append($startScreen);
 $("#start-button").click(function (evt) {
     $body.children().show();
-    $startScreen.hide();
+    $startScreen.remove();
 });
 
 
@@ -49,6 +49,7 @@ $(".box").click(function (evt) {
 
     if (hasGameEnded()) {
         console.log(`Player ${currentPlayer.number} wins the game!`)
+        showWinningScreen();
     }
 
     if (currentPlayer === player1) {
@@ -79,4 +80,16 @@ function hasGameEnded() {
         }
     }
     return false;
+}
+
+function showWinningScreen() {
+    const $winningScreen = `<div class="screen screen-win" id="finish">
+  <header>
+    <h1>Tic Tac Toe</h1>
+    <p class="message"></p>
+    <a href="#" class="button id=new-game-button">New game</a>
+  </header>
+</div>`
+    $("body").children().hide();
+    $("body").append($winningScreen);
 }
