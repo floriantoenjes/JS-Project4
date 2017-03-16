@@ -73,7 +73,7 @@ function styleCurrentPlayerActive() {
 }
 
 function isGameTie() {
-    if (!hasGameEnded && turns === 9) {
+    if (!hasGameEnded() && turns === 9) {
         return true;
     }
 }
