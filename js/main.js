@@ -159,12 +159,14 @@ function bindClickEventToBoxes() {
 
 function bindHoverEventToBoxes() {
     $boxes.each(function () {
-        $(this).hover(function (evt) {
-            if (!$(this).attr("number")) {
-                this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
-            }
-        }, function (evt) {
-            this.style = "background-image:;";
-        });
+        $(this).hover(
+            function (evt) {
+                if (!$(this).attr("number")) {
+                    this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
+                }
+            },
+            function (evt) {
+                this.style = "background-image:;";
+            });
     });
 }
