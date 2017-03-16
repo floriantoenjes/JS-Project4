@@ -2,47 +2,18 @@
 
 const $body = $("body");
 
-
-function Player(mark, number) {
-    this.mark = mark;
-    this.number = number;
-}
-
-
-/* Start Screen */
-const $startScreen = $(`<div class="screen screen-start" id="start">
-  <header>
-    <h1>Tic Tac Toe</h1>
-    <a href="#" id="start-button" class="button">Start game</a>
-  </header>
-</div>`);
-
-$body.children().hide();
-$body.append($startScreen);
-$("#start-button").click(function (evt) {
-    $body.children().show();
-    $startScreen.remove();
-});
-
-
+let turns = 0;
 const player1 = new Player("o", 1);
 const player2 = new Player("x", 2);
-let turns = 0;
-
 let currentPlayer = player1;
-$(`#player${currentPlayer.number}`).addClass("active");
 
-
-/* Build the Game Board */
 const $boxes = $(".box");
 const boxRows = [];
-for (let i = 0; i < 3; i++) {
-    const boxRow = []
-    for (let j = i * 3; j < (i * 3) + 3; j++) {
-        boxRow.push($($boxes[j]));
-    }
-    boxRows.push(boxRow);
-}
+
+showStartScreen();
+
+$(`#player${currentPlayer.number}`).addClass("active");
+
 
 
 $(".box").click(function (evt) {
@@ -74,6 +45,30 @@ $(".box").click(function (evt) {
     }
 });
 
+buildGameBoard();
+bindHoverEventToBoxes();
+
+function Player(mark, number) {
+    this.mark = mark;
+    this.number = number;
+}
+
+function buildGameBoard() {
+
+    for (let i = 0; i < 3; i++) {
+        const boxRow = []
+        for (let j = i * 3; j < (i * 3) + 3; j++) {
+            boxRow.push($($boxes[j]));
+        }
+        boxRows.push(boxRow);
+    }
+}
+
+function takeTurn() {
+
+}
+
+
 function isGameTie() {
     if (turns === 9) {
         return true;
@@ -100,6 +95,22 @@ function hasGameEnded() {
     return false;
 }
 
+function showStartScreen() {
+    const $startScreen = $(`<div class="screen screen-start" id="start">
+  <header>
+    <h1>Tic Tac Toe</h1>
+    <a href="#" id="start-button" class="button">Start game</a>
+  </header>
+</div>`);
+
+    $body.children().hide();
+    $body.append($startScreen);
+    $("#start-button").click(function (evt) {
+        $body.children().show();
+        $startScreen.remove();
+    });
+}
+
 function showWinningScreen(message, styleClass) {
     const $winningScreen = $(`<div class="screen screen-win" id="finish">
   <header>
@@ -113,8 +124,8 @@ function showWinningScreen(message, styleClass) {
     } else {
         $winningScreen.addClass(styleClass);
     }
-    $("body").children().hide();
-    $("body").append($winningScreen);
+    $body.children().hide();
+    $body.append($winningScreen);
     $("#new-game-button").click(function (evt) {
         $winningScreen.remove();
         turns = 0;
@@ -126,16 +137,18 @@ function showWinningScreen(message, styleClass) {
             $box.removeClass("box-filled-2");
         });
 
-        $("body").children().show();
+        $body.children().show();
     });
 }
 
-$boxes.each(function () {
-    $(this).hover(function (evt) {
-        if (!$(this).attr("number")) {
-            this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
-        }
-    }, function (evt) {
-        this.style = "background-image:;";
+function bindHoverEventToBoxes() {
+    $boxes.each(function () {
+        $(this).hover(function (evt) {
+            if (!$(this).attr("number")) {
+                this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
+            }
+        }, function (evt) {
+            this.style = "background-image:;";
+        });
     });
-});
+}
