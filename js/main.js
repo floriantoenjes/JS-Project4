@@ -38,8 +38,10 @@ function buildGameBoard() {
 function takeTurn(box) {
     const $box = $(box);
     if (!$box.attr("number")) {
+
         markBox($box);
         turns++;
+
         if (isGameTie()) {
             showWinningScreen("Tie", "screen-win-tie");
         } else if (hasGameEnded()) {
