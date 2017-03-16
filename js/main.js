@@ -122,3 +122,5 @@ $boxes.each(function () {
         this.style = "background-image:;";
     });
 });
+
+// ToDo: Add logic for a tie
