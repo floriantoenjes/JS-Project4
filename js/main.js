@@ -134,8 +134,8 @@ function showWinningScreen(message, styleClass) {
     $body.append($winningScreen);
     $("#new-game-button").click(function (evt) {
         $winningScreen.remove();
-        resetGame();
         $body.children().show();
+        resetGame();
     });
 }
 
