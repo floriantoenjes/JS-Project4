@@ -13,8 +13,8 @@ const boxRows = [];
 
 showStartScreen();
 stylePlayerActive();
-
 buildGameBoard();
+
 bindClickEventToBoxes();
 bindHoverEventToBoxes();
 
