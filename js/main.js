@@ -12,8 +12,7 @@ const $boxes = $(".box");
 const boxRows = [];
 
 showStartScreen();
-
-$(`#player${currentPlayer.number}`).addClass("active");
+stylePlayerActive();
 
 buildGameBoard();
 bindClickEventToBoxes();
@@ -65,6 +64,10 @@ function switchPlayers() {
         currentPlayer = player1;
     }
     $(".players").removeClass("active");
+    stylePlayerActive();
+}
+
+function stylePlayerActive() {
     $(`#player${currentPlayer.number}`).addClass("active");
 }
 
