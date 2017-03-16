@@ -23,25 +23,15 @@ $("#start-button").click(function (evt) {
     $startScreen.hide();
 });
 
+
 const player1 = new Player(1);
 const player2 = new Player(2);
-let currentPlayer = player1;
 
+let currentPlayer = player1;
 $(`#player${currentPlayer.number}`).addClass("active");
 
-$(".box").click(function (evt) {
-    $(this).addClass(`box-filled-${currentPlayer.number}`);
-    $(this).attr("number", currentPlayer.number);
-    console.log(`Has ended: ${hasGameEnded()}`);
-    if (currentPlayer === player1) {
-        currentPlayer = player2;
-    } else {
-        currentPlayer = player1;
-    }
-    $(".players").removeClass("active");
-    $(`#player${currentPlayer.number}`).addClass("active");
-});
 
+/* Build the Game Board */
 const $boxes = $(".box");
 const boxRows = [];
 for (let i = 0; i < 3; i++) {
@@ -51,6 +41,25 @@ for (let i = 0; i < 3; i++) {
     }
     boxRows.push(boxRow);
 }
+
+
+$(".box").click(function (evt) {
+    $(this).addClass(`box-filled-${currentPlayer.number}`);
+    $(this).attr("number", currentPlayer.number);
+
+    if (hasGameEnded()) {
+        console.log(`Player ${currentPlayer.number} wins the game!`)
+    }
+
+    if (currentPlayer === player1) {
+        currentPlayer = player2;
+    } else {
+        currentPlayer = player1;
+    }
+    $(".players").removeClass("active");
+    $(`#player${currentPlayer.number}`).addClass("active");
+});
+
 
 function hasGameEnded() {
     for (let row = 0; row < boxRows.length; row++) {
