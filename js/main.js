@@ -31,6 +31,8 @@ $(`#player${currentPlayer.number}`).addClass("active");
 
 $(".box").click(function (evt) {
     $(this).addClass(`box-filled-${currentPlayer.number}`);
+    $(this).attr("number", currentPlayer.number);
+    console.log(`Has ended: ${hasGameEnded()}`);
     if (currentPlayer === player1) {
         currentPlayer = player2;
     } else {
@@ -40,23 +42,32 @@ $(".box").click(function (evt) {
     $(`#player${currentPlayer.number}`).addClass("active");
 });
 
-let row = 0;
-let cell = 0;
-$(".box").each(function (index) {
-    $(this).attr("row", row);
-    $(this).attr("cell", cell);
-
-    if ((index + 1) % 3 === 0) {
-        row++;
-        cell = 0;
-    } else {
-        cell++;
+const $boxes = $(".box");
+const boxRows = [];
+for (let i = 0; i < 3; i++) {
+    const boxRow = []
+    for (let j = i * 3; j < (i * 3) + 3; j++) {
+        boxRow.push($($boxes[j]));
     }
-});
+    boxRows.push(boxRow);
+}
 
-function hasEnded() {
-    $boxes = $(".box");
-    $boxes.each(function (index, element) {
-
-    });
+function hasGameEnded() {
+    for (let row = 0; row < boxRows.length; row++) {
+        for (let cell = 0; cell < boxRows[row].length; cell++) {
+            const thisNumber = boxRows[row][cell].attr("number");
+            if (thisNumber) {
+                if (cell === 0 && boxRows[row][cell + 1].attr("number") === thisNumber && boxRows[row][cell + 2].attr("number") === thisNumber) {
+                    return true;
+                } else if (row === 0 && boxRows[row + 1][cell].attr("number") === thisNumber && boxRows[row + 2][cell].attr("number") === thisNumber) {
+                    return true;
+                } else if (cell === 0 && row === 0 && boxRows[row + 1][cell + 1].attr("number") === thisNumber && boxRows[row + 2][cell + 2].attr("number") === thisNumber) {
+                    return true;
+                } else if (cell === 2 && row === 0 && boxRows[row + 1][cell - 1].attr("number") === thisNumber && boxRows[row + 2][cell - 2].attr("number") === thisNumber) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
