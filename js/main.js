@@ -117,6 +117,7 @@ function showWinningScreen(message, styleClass) {
     $("body").append($winningScreen);
     $("#new-game-button").click(function (evt) {
         $winningScreen.remove();
+        turns = 0;
 
         $boxes.each(function (index, element) {
             const $box = $(element);
