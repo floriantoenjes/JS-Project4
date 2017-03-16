@@ -1,6 +1,9 @@
 "use strict";
 
 const $body = $("body");
+const $boxes = $(".box");
+
+const boxRows = [];
 
 const player1 = new Player("o", 1);
 const player2 = new Player("x", 2);
@@ -8,8 +11,6 @@ const player2 = new Player("x", 2);
 let turns = 0;
 let currentPlayer = player1;
 
-const $boxes = $(".box");
-const boxRows = [];
 
 showStartScreen();
 stylePlayerActive();
