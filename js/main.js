@@ -45,20 +45,22 @@ for (let i = 0; i < 3; i++) {
 
 
 $(".box").click(function (evt) {
-    $(this).addClass(`box-filled-${currentPlayer.number}`);
-    $(this).attr("number", currentPlayer.number);
+    if (!$(this).attr("number")) {
+        $(this).addClass(`box-filled-${currentPlayer.number}`);
+        $(this).attr("number", currentPlayer.number);
 
-    if (hasGameEnded()) {
-        showWinningScreen();
-    }
+        if (hasGameEnded()) {
+            showWinningScreen();
+        }
 
-    if (currentPlayer === player1) {
-        currentPlayer = player2;
-    } else {
-        currentPlayer = player1;
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
+        $(".players").removeClass("active");
+        $(`#player${currentPlayer.number}`).addClass("active");
     }
-    $(".players").removeClass("active");
-    $(`#player${currentPlayer.number}`).addClass("active");
 });
 
 
@@ -97,10 +99,10 @@ function showWinningScreen() {
     }
     $("body").children().hide();
     $("body").append($winningScreen);
-    $("#new-game-button").click(function(evt) {
+    $("#new-game-button").click(function (evt) {
         $winningScreen.remove();
 
-        $boxes.each(function(index, element) {
+        $boxes.each(function (index, element) {
             const $box = $(element);
             $box.removeAttr("number");
             $box.removeClass("box-filled-1");
@@ -111,9 +113,11 @@ function showWinningScreen() {
     });
 }
 
-$boxes.each(function() {
+$boxes.each(function () {
     $(this).hover(function (evt) {
-        this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
+        if (!$(this).attr("number")) {
+            this.style = `background-image: url(../img/${currentPlayer.mark}.svg);`;
+        }
     }, function (evt) {
         this.style = "background-image:;";
     });
