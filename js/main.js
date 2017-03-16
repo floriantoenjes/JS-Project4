@@ -13,7 +13,7 @@ let currentPlayer = player1;
 
 
 showStartScreen();
-stylePlayerActive();
+styleCurrentPlayerActive();
 buildGameBoard();
 
 bindClickEventToBoxes();
@@ -65,10 +65,10 @@ function switchPlayers() {
         currentPlayer = player1;
     }
     $(".players").removeClass("active");
-    stylePlayerActive();
+    styleCurrentPlayerActive();
 }
 
-function stylePlayerActive() {
+function styleCurrentPlayerActive() {
     $(`#player${currentPlayer.number}`).addClass("active");
 }
 
@@ -122,6 +122,7 @@ function showWinningScreen(message, styleClass) {
     <a href="#" class="button" id="new-game-button">New game</a>
   </header>
 </div>`);
+
     if (currentPlayer === player1) {
         $winningScreen.addClass(styleClass);
     } else {
@@ -131,10 +132,14 @@ function showWinningScreen(message, styleClass) {
     $body.append($winningScreen);
     $("#new-game-button").click(function (evt) {
         $winningScreen.remove();
-        turns = 0;
-        resetBoxes();
+        resetGame();
         $body.children().show();
     });
+}
+
+function resetGame() {
+    turns = 0;
+    resetBoxes();
 }
 
 function resetBoxes() {
