@@ -38,16 +38,11 @@ function buildGameBoard() {
 function takeTurn(box) {
     const $box = $(box);
     if (!$box.attr("number")) {
-        $box.addClass(`box-filled-${currentPlayer.number}`);
-        $box.attr("number", currentPlayer.number);
-
+        markBox($box);
         turns++;
-
         if (isGameTie()) {
             showWinningScreen("Tie", "screen-win-tie");
-        }
-
-        if (hasGameEnded()) {
+        } else if (hasGameEnded()) {
             if (currentPlayer === player1) {
                 showWinningScreen("Winner", "screen-win-one");
             } else {
@@ -56,6 +51,11 @@ function takeTurn(box) {
         }
         switchPlayers();
     }
+}
+
+function markBox($box) {
+    $box.addClass(`box-filled-${currentPlayer.number}`);
+    $box.attr("number", currentPlayer.number);
 }
 
 function switchPlayers() {
@@ -132,15 +132,17 @@ function showWinningScreen(message, styleClass) {
     $("#new-game-button").click(function (evt) {
         $winningScreen.remove();
         turns = 0;
-
-        $boxes.each(function (index, element) {
-            const $box = $(element);
-            $box.removeAttr("number");
-            $box.removeClass("box-filled-1");
-            $box.removeClass("box-filled-2");
-        });
-
+        resetBoxes();
         $body.children().show();
+    });
+}
+
+function resetBoxes() {
+    $boxes.each(function (index, element) {
+        const $box = $(element);
+        $box.removeAttr("number");
+        $box.removeClass("box-filled-1");
+        $box.removeClass("box-filled-2");
     });
 }
 
