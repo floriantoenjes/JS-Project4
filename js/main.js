@@ -83,13 +83,30 @@ function hasGameEnded() {
 }
 
 function showWinningScreen() {
-    const $winningScreen = `<div class="screen screen-win" id="finish">
+    const $winningScreen = $(`<div class="screen screen-win" id="finish">
   <header>
     <h1>Tic Tac Toe</h1>
-    <p class="message"></p>
-    <a href="#" class="button id=new-game-button">New game</a>
+    <p class="message">Winner</p>
+    <a href="#" class="button" id="new-game-button">New game</a>
   </header>
-</div>`
+</div>`);
+    if (currentPlayer === player1) {
+        $winningScreen.addClass("screen-win-one");
+    } else {
+        $winningScreen.addClass("screen-win-two");
+    }
     $("body").children().hide();
     $("body").append($winningScreen);
+    $("#new-game-button").click(function(evt) {
+        $winningScreen.remove();
+
+        $boxes.each(function(index, element) {
+            const $box = $(element);
+            $box.removeAttr("number");
+            $box.removeClass("box-filled-1");
+            $box.removeClass("box-filled-2");
+        });
+
+        $("body").children().show();
+    });
 }
